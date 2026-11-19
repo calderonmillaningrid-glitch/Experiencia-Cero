@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Experiencia Cero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Libre+Baskerville&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f1ec;--ink:#1f1f4a;--gold:#c9a56b;--gd:#8a6a2f;--c1:#e8d2ac;--c2:#dbbf93;--c3:#cdaf7f}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.65 Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+h1,h2,h3,.logo{font-family:'Libre Baskerville',Georgia,serif;font-weight:400;line-height:1.2}
+h1{font-size:clamp(2rem,6vw,3.4rem);margin:0 0 16px}h2{font-size:clamp(1.6rem,4vw,2.3rem);margin:0 0 16px}h3{font-size:1.2rem;margin:0 0 8px}
+a{color:inherit}
+header{position:sticky;top:0;z-index:5;background:var(--ink);color:var(--gold);display:flex;align-items:center;justify-content:space-between;padding:12px 6vw;flex-wrap:wrap;gap:8px}
+.logo{letter-spacing:.12em;text-decoration:none;font-size:1.05rem}
+nav{display:flex;gap:4px 18px;flex-wrap:wrap;align-items:center}
+nav a{color:#efe3cb;text-decoration:none;font-size:.92rem;padding:4px 0;border-bottom:2px solid transparent}
+nav a.on,nav a:hover{border-color:var(--gold)}
+#burger{display:none;background:none;border:1px solid var(--gold);color:var(--gold);padding:6px 12px;border-radius:2px}
+@media(max-width:900px){#burger{display:block}nav{display:none;width:100%;flex-direction:column;align-items:flex-start;padding:8px 0}nav.open{display:flex}}
+main section.view{display:none}main section.view.on{display:block}
+.wrap{padding:56px 6vw;max-width:1100px;margin:auto}
+.btn{background:var(--gold);color:var(--ink);border:0;padding:12px 22px;font:600 .8rem Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;border-radius:2px}
+.btn:hover{background:#d6b57e}.btn:disabled{opacity:.55;cursor:default}
+.btn.alt{background:none;border:1px solid var(--ink);color:var(--ink)}
+:focus-visible{outline:3px solid var(--gd);outline-offset:2px}
+.hero{background:linear-gradient(rgba(31,31,74,.88),rgba(31,31,74,.92)),repeating-linear-gradient(135deg,#34346a 0 18px,#2a2a5a 18px 36px);color:#fff;padding:90px 6vw}
+.hero h1{color:var(--gold);max-width:620px}.hero p{max-width:520px;font-size:1.1rem}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+@media(max-width:760px){.split{grid-template-columns:1fr}}
+.pic{aspect-ratio:4/5;background:linear-gradient(160deg,var(--c1),var(--c3));display:grid;place-items:center;font-size:4rem}
+.dark{background:var(--ink);color:#fff}.dark h2{color:var(--gold);text-align:center}.dark .sub{color:var(--gold);text-align:center;margin-top:-8px}
+.tst{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:28px}
+.tst blockquote{margin:0;border:1px solid var(--gold);padding:20px}.tst cite{display:block;color:var(--gold);font-family:'Libre Baskerville',serif;margin-top:10px}
+.objs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.objs div{padding:32px}.objs div:nth-child(1){background:var(--c1)}.objs div:nth-child(2){background:var(--c2)}.objs div:nth-child(3){background:var(--c3)}
+.svc{list-style:none;padding:0;margin:20px 0}
+.svc li{margin:14px 0}.svc a{display:flex;gap:14px;align-items:center;text-decoration:none;font-family:'Libre Baskerville',serif;border-bottom:1px solid var(--c2);padding-bottom:10px}
+.svc a:hover{color:var(--gd)}.svc span{color:var(--gold);font-size:1.5rem}
+.card{background:#fff;border:1px solid var(--c2);padding:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.tag{display:inline-block;background:var(--c1);padding:2px 10px;font-size:.8rem;margin:4px 0 12px}.gold{color:var(--gd);font-weight:600;margin:0}
+label{display:block;font-weight:600;margin:14px 0 4px;font-size:.92rem}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--c3);background:#fff;font:inherit;color:var(--ink);border-radius:2px}
+textarea{min-height:90px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}@media(max-width:600px){.row{grid-template-columns:1fr}}
+.filters{display:grid;grid-template-columns:2fr 1fr auto;gap:12px;align-items:end;margin-bottom:24px}@media(max-width:700px){.filters{grid-template-columns:1fr}}
+.chk{display:flex;gap:10px;align-items:center;font-weight:400;margin:8px 0}.chk input{width:auto}
+.tabs{display:flex;gap:8px;margin-bottom:8px}.tabs .btn{flex:1}
+.on-t{background:var(--ink);color:var(--gold)}
+#cvprev{background:#fff;border:1px solid var(--c3);padding:28px;min-height:360px}#cvprev h3{border-bottom:2px solid var(--gold);padding-bottom:4px;margin-top:18px;font-size:1rem}#cvprev p{white-space:pre-wrap;margin:4px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}.stats b{display:block;font:2.6rem 'Libre Baskerville',serif;color:var(--gd)}
+.scene{border-left:3px solid var(--gold);padding:4px 0 4px 18px;margin:22px 0}
+.skills span{display:inline-block;background:var(--ink);color:var(--gold);padding:3px 12px;margin:3px 6px 3px 0;border-radius:20px;font-size:.85rem}
+footer{background:var(--ink);color:#d9cdb4;padding:40px 6vw;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+footer .logo{color:var(--gold)}footer a{color:var(--gold)}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--gold);padding:12px 22px;display:none;z-index:9;border:1px solid var(--gold)}
+@media print{body *{visibility:hidden}#cvprev,#cvprev *{visibility:visible}#cvprev{position:absolute;left:0;top:0;width:100%;border:0}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#inicio">✦ EXPERIENCIA CERO</a>
+  <button id="burger" aria-label="Menú">☰</button>
+  <nav id="nav">
+    <a href="#inicio" data-i="n_home"></a><a href="#vacantes" data-i="n_jobs"></a><a href="#cv" data-i="n_cv"></a>
+    <a href="#habilidades" data-i="n_sk"></a><a href="#entrevista" data-i="n_int"></a><a href="#empresas" data-i="n_co"></a>
+    <a href="#proyecto" data-i="n_pr"></a><a href="#contacto" data-i="n_ct"></a>
+    <a href="#acceso" class="btn" id="navuser"></a>
+  </nav>
+</header>
+
+<main>
+<!-- INICIO -->
+<section class="view" id="v-inicio">
+  <div class="hero"><h1 data-i="h_t"></h1><p data-i="h_p"></p><a class="btn" href="#proyecto" data-i="h_b"></a></div>
+  <div class="wrap split"><div><h2 data-i="s1_t"></h2><p data-i="s1_p"></p><a class="btn" href="#proyecto" data-i="s1_b"></a></div><div class="pic" aria-hidden="true">💻</div></div>
+  <div class="wrap split"><div class="pic" aria-hidden="true">📝</div><div><h2 data-i="s2_t"></h2><p data-i="s2_p"></p><a class="btn" href="#contacto" data-i="s2_b"></a></div></div>
+  <div class="dark"><div class="wrap"><h2 data-i="t_t"></h2><p class="sub" data-i="t_s"></p><div class="tst" id="tst"></div></div></div>
+  <div class="wrap"><h2 data-i="o_t"></h2></div>
+  <div class="objs"><div><h3 data-i="o1"></h3><p data-i="o1p"></p></div><div><h3 data-i="o2"></h3><p data-i="o2p"></p></div><div><h3 data-i="o3"></h3><p data-i="o3p"></p></div></div>
+  <div class="wrap split"><div><h2 data-i="sv_t"></h2><p data-i="sv_p"></p>
+    <ul class="svc">
+      <li><a href="#cv"><span>▤</span><i data-i="sv1"></i></a></li><li><a href="#habilidades"><span>▤</span><i data-i="sv2"></i></a></li>
+      <li><a href="#entrevista"><span>▤</span><i data-i="sv3"></i></a></li><li><a href="#vacantes"><span>▤</span><i data-i="sv4"></i></a></li>
+      <li><a href="#empresas"><span>▤</span><i data-i="sv5"></i></a></li><li><a href="#contacto"><span>▤</span><i data-i="sv6"></i></a></li>
+      <li><a href="#proyecto"><span>▤</span><i data-i="sv7"></i></a></li>
+    </ul></div><div class="pic" aria-hidden="true">🤝</div></div>
+</section>
+
+<!-- VACANTES -->
+<section class="view" id="v-vacantes"><div class="wrap">
+  <h2 data-i="n_jobs"></h2><p data-i="j_p"></p>
+  <div class="filters">
+    <div><label for="q" data-i="j_s"></label><input id="q" type="search"></div>
+    <div><label for="cat" data-i="j_c"></label><select id="cat"></select></div>
+    <label class="chk"><input type="checkbox" id="nx" checked><span data-i="j_nx"></span></label>
+  </div>
+  <div class="grid" id="jl"></div>
+</div></section>
+
+<!-- CV -->
+<section class="view" id="v-cv"><div class="wrap">
+  <h2 data-i="cv_t"></h2><p data-i="cv_p"></p>
+  <div class="split" style="align-items:start">
+    <form id="cvf">
+      <label for="cv_name" data-i="f_name"></label><input id="cv_name">
+      <div class="row"><div><label for="cv_mail" data-i="f_mail"></label><input id="cv_mail" type="email"></div><div><label for="cv_tel" data-i="f_tel"></label><input id="cv_tel" type="tel"></div></div>
+      <label for="cv_city" data-i="f_city"></label><input id="cv_city">
+      <label for="cv_obj" data-i="cv_obj"></label><textarea id="cv_obj"></textarea>
+      <label for="cv_edu" data-i="cv_edu"></label><textarea id="cv_edu"></textarea>
+      <label for="cv_sk" data-i="cv_sk"></label><textarea id="cv_sk"></textarea>
+      <label for="cv_exp" data-i="cv_exp"></label><textarea id="cv_exp"></textarea>
+      <p style="margin-top:18px"><button class="btn" type="button" id="cvsave" data-i="b_save"></button> <button class="btn alt" type="button" id="cvprint" data-i="cv_pr"></button></p>
+    </form>
+    <div id="cvprev" aria-live="polite"></div>
+  </div>
+</div></section>
+
+<!-- HABILIDADES -->
+<section class="view" id="v-habilidades"><div class="wrap">
+  <h2 data-i="n_sk"></h2><p data-i="sk_p"></p><div id="skl"></div>
+  <p><button class="btn" id="skgo" data-i="sk_go"></button></p>
+  <div id="skr" class="card" hidden></div>
+</div></section>
+
+<!-- ENTREVISTA -->
+<section class="view" id="v-entrevista"><div class="wrap">
+  <h2 data-i="n_int"></h2><p data-i="in_p"></p>
+  <div class="card"><h3 id="iq"></h3><p id="it" hidden></p>
+    <label for="ia" data-i="in_a"></label><textarea id="ia"></textarea>
+    <p><button class="btn alt" id="itip" data-i="in_tip"></button> <button class="btn" id="inext" data-i="in_next"></button></p></div>
+</div></section>
+
+<!-- EMPRESAS -->
+<section class="view" id="v-empresas"><div class="wrap">
+  <h2 data-i="co_t"></h2><p data-i="co_p"></p>
+  <form id="cof">
+    <div class="row"><div><label for="co_n" data-i="co_n"></label><input id="co_n" required></div><div><label for="co_m" data-i="f_mail"></label><input id="co_m" type="email" required></div></div>
+    <div class="row"><div><label for="co_c" data-i="f_city"></label><input id="co_c" required></div><div><label for="co_p2" data-i="co_pay"></label><input id="co_p2" required></div></div>
+    <label for="co_v" data-i="co_v"></label><input id="co_v" required>
+    <label for="co_d" data-i="co_d"></label><textarea id="co_d"></textarea>
+    <p><button class="btn" data-i="co_go"></button></p>
+  </form>
+</div></section>
+
+<!-- PROYECTO -->
+<section class="view" id="v-proyecto"><div class="wrap">
+  <h2 data-i="pr_t"></h2><div id="scenes"></div>
+  <div class="stats"><div><b>30</b><span data-i="st1"></span></div><div><b>10</b><span data-i="st2"></span></div><div><b>15</b><span data-i="st3"></span></div></div>
+  <p style="text-align:center;margin-top:28px"><a class="btn" href="#acceso" data-i="pr_go"></a></p>
+</div></section>
+
+<!-- CONTACTO -->
+<section class="view" id="v-contacto"><div class="wrap">
+  <div class="split" style="align-items:start">
+    <div><h2 data-i="n_ct"></h2>
+      <p>📍 Calle 123, Colonia Centro<br>Cuernavaca, Morelos C. P. 62000</p>
+      <p>☎ <a href="tel:+525512345678">(55) 1234 5678</a></p>
+      <p>✉ <a href="mailto:hola@experienciacero.mx">hola@experienciacero.mx</a></p>
+      <h2 style="margin-top:32px" data-i="ct_s"></h2>
+      <p><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a><br><a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a><br><a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a></p>
+      <p data-i="ct_inc"></p></div>
+    <div><h2 data-i="ct_h"></h2>
+      <p><span class="gold" data-i="ct_h1"></span><br>9:00 – 18:00</p>
+      <p><span class="gold" data-i="ct_h2"></span><br>9:00 – 14:00</p>
+      <p class="gold" data-i="ct_h3"></p>
+      <form id="ctf"><label for="ct_n" data-i="f_name"></label><input id="ct_n" required>
+      <label for="ct_m" data-i="ct_msg"></label><textarea id="ct_m" required></textarea>
+      <p><button class="btn" data-i="ct_send"></button></p></form></div>
+  </div>
+</div></section>
+
+<!-- ACCESO -->
+<section class="view" id="v-acceso"><div class="wrap" style="max-width:520px">
+  <div class="tabs"><button class="btn on-t" id="tr" data-i="a_reg"></button><button class="btn alt" id="tl" data-i="a_log"></button></div>
+  <form id="regf"><h2 data-i="a_reg"></h2>
+    <label for="r_n" data-i="f_name"></label><input id="r_n" required>
+    <label for="r_m" data-i="f_mail"></label><input id="r_m" type="email" required>
+    <label for="r_p" data-i="a_pass"></label><input id="r_p" type="password" minlength="6" required>
+    <label for="r_t" data-i="a_type"></label><select id="r_t"></select>
+    <p><button class="btn" data-i="a_reg"></button></p></form>
+  <form id="logf" hidden><h2 data-i="a_log"></h2>
+    <label for="l_m" data-i="f_mail"></label><input id="l_m" type="email" required>
+    <label for="l_p" data-i="a_pass"></label><input id="l_p" type="password" required>
+    <p><button class="btn" data-i="a_log"></button></p></form>
+  <p style="font-size:.85rem" data-i="a_demo"></p>
+</div></section>
+
+<!-- PERFIL -->
+<section class="view" id="v-perfil"><div class="wrap">
+  <h2 data-i="n_prof"></h2>
+  <div class="card"><h3 id="pn"></h3><p id="pm"></p><p id="pt" class="gold"></p></div>
+  <div class="card" style="margin-top:18px"><h3 data-i="p_lang"></h3>
+    <label for="lang" data-i="p_langl"></label>
+    <select id="lang"><option value="es">Español</option><option value="en">English</option></select></div>
+  <div class="card" style="margin-top:18px"><h3 data-i="p_sk"></h3><div class="skills" id="psk"></div>
+    <p><a class="btn alt" href="#habilidades" data-i="n_sk"></a> <a class="btn alt" href="#cv" data-i="n_cv"></a></p></div>
+  <div class="card" style="margin-top:18px"><h3 data-i="p_apps"></h3><ul id="pap"></ul></div>
+  <p style="margin-top:20px"><button class="btn" id="out" data-i="p_out"></button> <button class="btn alt" id="del" data-i="p_del"></button></p>
+</div></section>
+</main>
+
+<footer>
+  <div><span class="logo">✦ EXPERIENCIA CERO</span><p data-i="ft"></p></div>
+  <div><a href="#proyecto" data-i="ft_cr"></a></div>
+</footer>
+<div id="toast" role="status"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const g=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v??d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let lang=g('ec_lang','es'),users=g('ec_users',[]),ses=g('ec_ses',null),extra=g('ec_jobs',[]),qi=0;
+const me=()=>users.find(u=>u.email===ses);
+const D={es:{},en:{}},L=(k,e,n)=>{D.es[k]=e;D.en[k]=n},t=k=>D[lang][k]||k;
+
+/* ===== Textos / Texts ===== */
+L('n_home','Inicio','Home');L('n_jobs','Vacantes','Jobs');L('n_cv','Currículum','Résumé');L('n_sk','Habilidades','Skills');
+L('n_int','Entrevista','Interview');L('n_co','Empresas','Companies');L('n_pr','Proyecto','Project');L('n_ct','Contacto','Contact');
+L('n_login','Entrar','Sign in');L('n_prof','Mi perfil','My profile');
+L('h_t','Consigue el trabajo que te mereces','Get the job you deserve');
+L('h_p','Ayudamos a jóvenes recién egresados, adultos mayores y personas sin estudios a conseguir trabajos con pagos justos y a largo plazo.','We help recent graduates, older adults and people without formal education find jobs with fair, long-term pay.');
+L('h_b','Más información','Learn more');
+L('s1_t','El siguiente paso para tu vida adulta','The next step in your adult life');
+L('s1_p','Después de cumplir con tus niveles académicos, llega el momento de trabajar: tener tu propia independencia. Las empresas buscan personas capaces de cumplir tareas laborales, y queremos ayudarte a tener las capacidades para ello.','After finishing your studies, it is time to work and gain independence. Companies look for people able to do the job, and we want to help you build those abilities.');
+L('s1_b','Cómo trabajamos','How we work');
+L('s2_t','Aquí cuando más importa','Here when it matters most');
+L('s2_p','Nos importa que, con las exigencias del mercado, las personas puedan cumplir los criterios que se les piden. Ve lo que tenemos para ti.','With today’s market demands, we want people to be able to meet the criteria asked of them. See what we have for you.');
+L('s2_b','Contáctanos','Contact us');
+L('t_t','Comentarios de los usuarios','What our users say');L('t_s','¿Por qué deberías darnos una oportunidad?','Why should you give us a chance?');
+L('tt1','Nunca había hecho un currículum. En una tarde ya tenía el mío listo y mi primera entrevista.','I had never made a résumé. In one afternoon I had mine ready and my first interview.');
+L('tt2','A mis 58 años pensé que nadie me contrataría. Aquí encontré vacantes que valoran mi responsabilidad.','At 58 I thought nobody would hire me. Here I found jobs that value my reliability.');
+L('tt3','El test de habilidades me ayudó a ver que sí tengo mucho que ofrecer.','The skills test helped me see I do have a lot to offer.');
+L('o_t','Nuestros principales objetivos','Our main goals');
+L('o1','Asesoría laboral','Career guidance');L('o1p','Te orientamos para preparar tu currículum y tus entrevistas paso a paso.','We guide you step by step to prepare your résumé and interviews.');
+L('o2','Ampliar tus habilidades','Grow your skills');L('o2p','Identificamos lo que ya sabes hacer y te mostramos cómo comunicarlo.','We identify what you already do well and show you how to present it.');
+L('o3','Soluciones centradas en la persona','People-centered solutions');L('o3p','Vacantes sin experiencia previa, para cualquier edad y nivel de estudios.','Entry-level jobs for any age and education level.');
+L('sv_t','Nuestros servicios','Our services');L('sv_p','Todo lo que necesitas para dar el primer paso hacia un empleo.','Everything you need to take the first step toward a job.');
+L('sv1','Creador de currículum','Résumé builder');L('sv2','Identificación de habilidades','Skills finder');L('sv3','Preparación para entrevistas','Interview practice');
+L('sv4','Vacantes sin experiencia','No-experience jobs');L('sv5','Registro de empresas','Company sign-up');L('sv6','Orientación laboral','Career guidance');L('sv7','Conoce el proyecto','About the project');
+L('j_p','Vacantes de ejemplo en México. Inicia sesión para postularte.','Sample jobs in Mexico. Sign in to apply.');
+L('j_s','Buscar','Search');L('j_c','Categoría','Category');L('j_nx','Solo sin experiencia','No experience only');
+L('all','Todas','All');L('apply','Postularme','Apply');L('applied','Postulado','Applied');L('none','No hay vacantes con esos filtros. Prueba quitando alguno.','No jobs match those filters. Try removing one.');
+L('exp','Pide experiencia','Experience required');L('noexp','Sin experiencia','No experience');
+L('ap_ok','Postulación enviada','Application sent');L('ap_need','Inicia sesión para postularte','Sign in to apply');
+L('cv_t','Creador de currículum','Résumé builder');L('cv_p','Llena los campos y mira tu currículum al instante. Si no tienes experiencia, cuenta tus actividades y logros.','Fill in the fields and see your résumé instantly. If you have no experience, describe your activities and achievements.');
+L('f_name','Nombre completo','Full name');L('f_mail','Correo electrónico','Email');L('f_tel','Teléfono','Phone');L('f_city','Ciudad','City');
+L('cv_obj','Objetivo laboral','Career objective');L('cv_edu','Estudios','Education');L('cv_sk','Habilidades','Skills');L('cv_exp','Experiencia o actividades','Experience or activities');
+L('b_save','Guardar','Save');L('cv_pr','Imprimir / PDF','Print / PDF');L('saved','Guardado','Saved');
+L('sk_p','Marca lo que te describe. Detectaremos tus habilidades.','Check what describes you. We will detect your skills.');
+L('sk_go','Ver mis habilidades','See my skills');L('sk_r','Tus habilidades','Your skills');L('sk_save','Guardar en mi perfil','Save to my profile');L('sk_empty','Marca al menos una opción.','Check at least one option.');
+L('in_p','Practica con preguntas frecuentes. Escribe tu respuesta y revisa el consejo.','Practice common questions. Write your answer and check the tip.');
+L('in_a','Tu respuesta','Your answer');L('in_tip','Ver consejo','Show tip');L('in_next','Siguiente pregunta','Next question');
+L('co_t','Registro de empresas','Company sign-up');L('co_p','Publica una vacante y descubre talento más allá del currículum.','Post a job and discover talent beyond the résumé.');
+L('co_n','Empresa','Company');L('co_pay','Sueldo mensual','Monthly pay');L('co_v','Puesto','Job title');L('co_d','Descripción','Description');L('co_go','Publicar vacante','Post job');L('co_ok','Vacante publicada','Job posted');
+L('pr_t','Experiencia Cero: una oportunidad puede cambiar una historia','Experience Zero: an opportunity can change a story');
+L('pr_go','Crear mi cuenta','Create my account');
+L('st1','personas registradas (meta, 3 meses)','people registered (3-month goal)');L('st2','alianzas con empresas','company partnerships');L('st3','contactados para entrevista','invited to interview');
+L('ct_s','Síguenos en redes','Follow us');L('ct_inc','Somos un lugar de trabajo inclusivo. Si necesitas alguna solicitud especial, escríbenos por correo.','We are an inclusive workplace. If you need any special accommodation, email us.');
+L('ct_h','Horario','Hours');L('ct_h1','Lunes a viernes','Monday to Friday');L('ct_h2','Sábado','Saturday');L('ct_h3','Domingo cerrado','Closed on Sunday');
+L('ct_msg','Mensaje','Message');L('ct_send','Enviar mensaje','Send message');
+L('a_reg','Crear cuenta','Sign up');L('a_log','Iniciar sesión','Sign in');L('a_pass','Contraseña','Password');L('a_type','Tu perfil','Your profile');
+L('a_demo','Demostración: los datos se guardan solo en este navegador.','Demo: data is stored only in this browser.');
+L('a_bad','Correo o contraseña incorrectos','Wrong email or password');L('a_dup','Ese correo ya está registrado','That email is already registered');
+L('ty1','Joven recién egresado','Recent graduate');L('ty2','Adulto mayor','Older adult');L('ty3','Persona sin estudios formales','Person without formal education');L('ty4','Otro','Other');
+L('p_lang','Idioma','Language');L('p_langl','Idioma de la aplicación','App language');L('p_sk','Mis habilidades','My skills');L('p_apps','Mis postulaciones','My applications');
+L('p_out','Cerrar sesión','Sign out');L('p_del','Eliminar mi cuenta','Delete my account');L('p_none','Aún no te has postulado.','You have not applied yet.');L('p_nosk','Aún no guardas habilidades.','No saved skills yet.');L('p_confirm','¿Eliminar tu cuenta y tus datos?','Delete your account and data?');
+L('ft','Conectamos talento con oportunidades.','Connecting talent with opportunities.');L('ft_cr','Fuentes y créditos','Sources and credits');
+L('sent','Mensaje preparado en tu correo','Message opened in your email app');
+
+const TESTI=[['tt1','Alejandro Morales'],['tt2','Jorge Torres'],['tt3','Laura Alvarado']];
+const CATS=[['ventas','Ventas','Sales'],['admin','Administración','Administration'],['servicio','Servicio al cliente','Customer service'],['logistica','Logística','Logistics'],['tecnologia','Tecnología','Technology']];
+const JOBS=[
+{id:1,t:['Auxiliar administrativo','Administrative assistant'],c:'Comercial Morelos',city:'Cuernavaca',cat:'admin',pay:'$9,500 MXN',exp:0},
+{id:2,t:['Vendedor de mostrador','Counter sales associate'],c:'Tienda La Estrella',city:'Puebla',cat:'ventas',pay:'$8,800 MXN',exp:0},
+{id:3,t:['Atención a clientes (chat)','Customer support (chat)'],c:'Servicios Aurora',city:'Remoto',cat:'servicio',pay:'$10,200 MXN',exp:0},
+{id:4,t:['Auxiliar de almacén','Warehouse assistant'],c:'Logística del Centro',city:'CDMX',cat:'logistica',pay:'$9,800 MXN',exp:0},
+{id:5,t:['Capturista de datos','Data entry clerk'],c:'Grupo Atlas',city:'Guadalajara',cat:'admin',pay:'$9,000 MXN',exp:0},
+{id:6,t:['Soporte técnico nivel 1','Level 1 tech support'],c:'Red Digital MX',city:'Monterrey',cat:'tecnologia',pay:'$12,500 MXN',exp:1},
+{id:7,t:['Recepcionista','Receptionist'],c:'Clínica Vida',city:'Cuernavaca',cat:'servicio',pay:'$9,200 MXN',exp:0},
+{id:8,t:['Ejecutivo de ventas junior','Junior sales executive'],c:'Distribuidora Sol',city:'CDMX',cat:'ventas',pay:'$11,000 MXN + comisiones',exp:1}];
+const SK=[['Me gusta ayudar a otras personas','I like helping people','Atención al cliente','Customer service'],
+['Soy puntual y cumplo mis compromisos','I am punctual and keep commitments','Responsabilidad','Reliability'],
+['Sé trabajar en equipo','I work well in a team','Trabajo en equipo','Teamwork'],
+['Me organizo bien','I am well organized','Organización','Organization'],
+['Resuelvo problemas con ingenio','I solve problems creatively','Resolución de problemas','Problem solving'],
+['Aprendo rápido cosas nuevas','I learn new things quickly','Aprendizaje rápido','Fast learning'],
+['Me comunico con claridad','I communicate clearly','Comunicación','Communication'],
+['Uso celular o computadora con facilidad','I use phones or computers easily','Habilidades digitales','Digital skills']];
+const IQ=[['Cuéntame sobre ti.','Tell me about yourself.','Habla de quién eres, qué sabes hacer y qué buscas. Máximo un minuto.','Share who you are, what you can do and what you want. One minute max.'],
+['¿Por qué quieres este trabajo?','Why do you want this job?','Menciona algo concreto de la empresa y cómo puedes aportar.','Mention something specific about the company and how you can contribute.'],
+['¿Cuáles son tus fortalezas?','What are your strengths?','Elige dos y da un ejemplo real de la escuela, casa o comunidad.','Pick two and give a real example from school, home or community.'],
+['¿Cómo manejas los errores?','How do you handle mistakes?','Reconoce el error, explica qué aprendiste y cómo lo corregiste.','Own the mistake, explain what you learned and how you fixed it.'],
+['Cuéntame de un reto que superaste.','Tell me about a challenge you overcame.','Cuenta la situación, lo que hiciste y el resultado.','Describe the situation, what you did and the result.'],
+['¿Tienes preguntas para nosotros?','Do you have questions for us?','Siempre prepara una: horarios, capacitación o crecimiento.','Always prepare one: schedule, training or growth.']];
+const SC=[['1. El problema','1. The problem','Para muchos jóvenes, terminar una carrera no significa encontrar trabajo: la falta de experiencia es una barrera. También los adultos mayores y las personas sin acceso a estudios enfrentan dificultades para conseguir oportunidades.','For many young people, finishing a degree does not mean finding a job: lack of experience is a barrier. Older adults and people without access to education also struggle to find opportunities.'],
+['2. Nuestra propuesta','2. Our proposal','Experiencia Cero es un proyecto social que conecta a personas con dificultades para incorporarse al mercado laboral con empresas dispuestas a darles una oportunidad. El talento no depende de la edad, la experiencia o los estudios.','Experience Zero is a social project that connects people who struggle to enter the job market with companies willing to give them a chance. Talent does not depend on age, experience or schooling.'],
+['3. Soluciones existentes','3. Existing solutions','Existen iniciativas como el Servicio Nacional de Empleo (Portal del Empleo) y Jóvenes Construyendo el Futuro. Aportamos una propuesta que reúne orientación laboral, reconocimiento de habilidades y vinculación con empresas para personas de distintas edades y niveles educativos.','Initiatives such as the National Employment Service (Portal del Empleo) and Jóvenes Construyendo el Futuro exist. We add a proposal that combines career guidance, skills recognition and company matching for people of different ages and education levels.'],
+['4. ¿Cómo funciona?','4. How it works','Registra candidatos y empresas, elabora tu currículum, identifica tus habilidades, prepárate para entrevistas y encuentra vacantes que no exigen experiencia previa. Las empresas descubren capacidades que quedan ocultas detrás de un currículum.','Register candidates and companies, build your résumé, identify your skills, practice interviews and find jobs that do not require experience. Companies discover abilities hidden behind a résumé.'],
+['5. Resultados esperados','5. Expected results','En los primeros tres meses esperamos registrar al menos 30 personas, establecer alianzas con 10 empresas y lograr que al menos 15 participantes sean contactados para una entrevista.','In the first three months we expect to register at least 30 people, partner with 10 companies and get at least 15 participants invited to an interview.'],
+['6. Evidencias y aprendizajes','6. Evidence and learning','Reuniremos fotografías, registros de participantes, evidencias de la plataforma, testimonios y resultados de vinculación. Aprenderemos sobre el mercado laboral y fortaleceremos organización, comunicación y trabajo en equipo.','We will gather photos, participant records, platform evidence, testimonials and matching results. We will learn about the job market and strengthen organization, communication and teamwork.'],
+['7. Cierre','7. Closing','Porque una oportunidad puede cambiar una historia. Creemos que todos tienen algo que aportar; solo necesitan una oportunidad para demostrarlo.','Because an opportunity can change a story. We believe everyone has something to contribute; they only need a chance to show it.']];
+
+/* ===== Utilidades ===== */
+function toast(m){const e=$('#toast');e.textContent=m;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2600)}
+const go=h=>{location.hash=h};
+const save=()=>sv('ec_users',users);
+const lp=i=>lang==='es'?i[0]:i[1];
+
+/* ===== Render ===== */
+function i18n(){
+  document.documentElement.lang=lang;
+  $$('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));
+  $('#navuser').textContent=me()?t('n_prof'):t('n_login');$('#navuser').href=me()?'#perfil':'#acceso';
+  $('#tst').innerHTML=TESTI.map(x=>`<blockquote>${esc(t(x[0]))}<cite>— ${x[1]}</cite></blockquote>`).join('');
+  const c=$('#cat'),cv=c.value;c.innerHTML=`<option value="">${t('all')}</option>`+CATS.map(x=>`<option value="${x[0]}">${lang==='es'?x[1]:x[2]}</option>`).join('');c.value=cv;
+  const r=$('#r_t');r.innerHTML=[1,2,3,4].map(n=>`<option>${t('ty'+n)}</option>`).join('');
+  $('#scenes').innerHTML=SC.map(s=>`<div class="scene"><h3>${lp(s)}</h3><p>${lang==='es'?s[2]:s[3]}</p></div>`).join('')+
+   `<div class="scene"><h3>${lang==='es'?'8. Fuentes y créditos':'8. Sources and credits'}</h3><p><a href="https://www.empleo.gob.mx" target="_blank" rel="noopener">Servicio Nacional de Empleo – Portal del Empleo</a><br><a href="https://www.gob.mx/jovenesconstruyendoelfuturo" target="_blank" rel="noopener">Jóvenes Construyendo el Futuro</a><br>${lang==='es'?'Equipo Experiencia Cero (agrega aquí los nombres del equipo).':'Experience Zero team (add team names here).'}</p></div>`;
+  $('#lang').value=lang;
+  jobs();skills();question();cvPrev();profile();
+}
+function jobs(){
+  const q=$('#q').value.toLowerCase(),c=$('#cat').value,nx=$('#nx').checked,u=me();
+  const list=[...JOBS,...extra].filter(j=>(!c||j.cat===c)&&(!nx||!j.exp)&&(j.t.join(' ')+j.c+j.city).toLowerCase().includes(q));
+  $('#jl').innerHTML=list.map(j=>{const d=u&&u.apps.includes(j.id);
+    return `<article class="card"><h3>${esc(lp(j.t))}</h3><p style="margin:0">${esc(j.c)} · ${esc(j.city)}</p><p class="gold">${esc(j.pay)}</p><span class="tag">${j.exp?t('exp'):t('noexp')}</span><br><button class="btn" data-j="${j.id}" ${d?'disabled':''}>${d?t('applied'):t('apply')}</button></article>`}).join('')||`<p>${t('none')}</p>`;
+}
+function skills(){
+  const sel=$$('#skl input:checked').map(i=>+i.value);
+  $('#skl').innerHTML=SK.map((s,i)=>`<label class="chk"><input type="checkbox" value="${i}" ${sel.includes(i)?'checked':''}>${lang==='es'?s[0]:s[1]}</label>`).join('');
+  if(!$('#skr').hidden)showSk();
+}
+function showSk(){
+  const sel=$$('#skl input:checked').map(i=>+i.value),b=$('#skr');b.hidden=false;
+  b.innerHTML=sel.length?`<h3>${t('sk_r')}</h3><div class="skills">${sel.map(i=>`<span>${SK[i][lang==='es'?2:3]}</span>`).join('')}</div><p><button class="btn" id="sksave">${t('sk_save')}</button></p>`:`<p>${t('sk_empty')}</p>`;
+}
+function question(){const q=IQ[qi];$('#iq').textContent=lang==='es'?q[0]:q[1];$('#it').textContent=lang==='es'?q[2]:q[3]}
+const CVF=['name','mail','tel','city','obj','edu','sk','exp'];
+function fillCV(){const u=me(),d=(u&&u.cv)||{};CVF.forEach(k=>$('#cv_'+k).value=d[k]||(k==='name'&&u?u.name:'')||(k==='mail'&&u?u.email:'')||(k==='sk'&&u?u.skills.map(i=>SK[i][2]).join(', '):''));cvPrev()}
+function cvPrev(){
+  const v=k=>esc($('#cv_'+k).value),H=(l,k)=>$('#cv_'+k).value?`<h3>${t(l)}</h3><p>${v(k)}</p>`:'';
+  $('#cvprev').innerHTML=`<h2 style="margin:0">${v('name')||'—'}</h2><p>${[v('mail'),v('tel'),v('city')].filter(Boolean).join(' · ')}</p>`+H('cv_obj','obj')+H('cv_edu','edu')+H('cv_sk','sk')+H('cv_exp','exp');
+}
+function profile(){
+  const u=me();if(!u)return;
+  $('#pn').textContent=u.name;$('#pm').textContent=u.email;$('#pt').textContent=u.type;
+  $('#psk').innerHTML=u.skills.length?u.skills.map(i=>`<span>${SK[i][lang==='es'?2:3]}</span>`).join(''):`<p>${t('p_nosk')}</p>`;
+  const all=[...JOBS,...extra];
+  $('#pap').innerHTML=u.apps.length?u.apps.map(id=>{const j=all.find(x=>x.id===id);return j?`<li>${esc(lp(j.t))} — ${esc(j.c)}</li>`:''}).join(''):`<li>${t('p_none')}</li>`;
+}
+
+/* ===== Router ===== */
+const VIEWS=['inicio','vacantes','cv','habilidades','entrevista','empresas','proyecto','contacto','acceso','perfil'];
+function route(){
+  let v=(location.hash||'#inicio').slice(1);if(!VIEWS.includes(v))v='inicio';
+  if(v==='perfil'&&!me())v='acceso';
+  $$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));
+  $$('#nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+v&&!a.classList.contains('btn')));
+  $('#nav').classList.remove('open');window.scrollTo(0,0);
+  if(v==='cv')fillCV();if(v==='vacantes')jobs();if(v==='perfil')profile();
+}
+addEventListener('hashchange',route);
+
+/* ===== Eventos ===== */
+$('#burger').onclick=()=>$('#nav').classList.toggle('open');
+['q','cat','nx'].forEach(i=>$('#'+i).addEventListener('input',jobs));
+$('#jl').onclick=e=>{const b=e.target.closest('[data-j]');if(!b)return;const u=me();
+  if(!u){toast(t('ap_need'));return go('#acceso')}
+  u.apps.push(+b.dataset.j);save();jobs();toast(t('ap_ok'))};
+$('#cvf').addEventListener('input',cvPrev);
+$('#cvsave').onclick=()=>{const u=me();if(!u){toast(t('ap_need'));return go('#acceso')}
+  u.cv={};CVF.forEach(k=>u.cv[k]=$('#cv_'+k).value);save();toast(t('saved'))};
+$('#cvprint').onclick=()=>window.print();
+$('#skgo').onclick=showSk;
+$('#skr').onclick=e=>{if(e.target.id!=='sksave')return;const u=me();if(!u){toast(t('ap_need'));return go('#acceso')}
+  u.skills=$$('#skl input:checked').map(i=>+i.value);save();toast(t('saved'))};
+$('#itip').onclick=()=>{$('#it').hidden=!$('#it').hidden};
+$('#inext').onclick=()=>{qi=(qi+1)%IQ.length;$('#it').hidden=true;$('#ia').value='';question()};
+$('#cof').onsubmit=e=>{e.preventDefault();
+  extra.push({id:Date.now(),t:[$('#co_v').value,$('#co_v').value],c:$('#co_n').value,city:$('#co_c').value,cat:'admin',pay:$('#co_p2').value,exp:0});
+  sv('ec_jobs',extra);e.target.reset();toast(t('co_ok'));go('#vacantes')};
+$('#ctf').onsubmit=e=>{e.preventDefault();
+  location.href=`mailto:hola@experienciacero.mx?subject=${encodeURIComponent('Contacto: '+$('#ct_n').value)}&body=${encodeURIComponent($('#ct_m').value)}`;toast(t('sent'))};
+$('#tr').onclick=$('#tl').onclick=e=>{const r=e.currentTarget.id==='tr';$('#regf').hidden=!r;$('#logf').hidden=r;
+  $('#tr').className='btn '+(r?'on-t':'alt');$('#tl').className='btn '+(r?'alt':'on-t')};
+$('#regf').onsubmit=e=>{e.preventDefault();const m=$('#r_m').value.trim().toLowerCase();
+  if(users.some(u=>u.email===m))return toast(t('a_dup'));
+  users.push({name:$('#r_n').value,email:m,pass:btoa(unescape(encodeURIComponent($('#r_p').value))),type:$('#r_t').value,skills:[],apps:[],cv:null});
+  ses=m;save();sv('ec_ses',ses);i18n();e.target.reset();go('#perfil')};
+$('#logf').onsubmit=e=>{e.preventDefault();const m=$('#l_m').value.trim().toLowerCase(),p=btoa(unescape(encodeURIComponent($('#l_p').value)));
+  if(!users.some(u=>u.email===m&&u.pass===p))return toast(t('a_bad'));
+  ses=m;sv('ec_ses',ses);i18n();e.target.reset();go('#perfil')};
+$('#lang').onchange=e=>{lang=e.target.value;sv('ec_lang',lang);i18n()};
+$('#out').onclick=()=>{ses=null;sv('ec_ses',null);i18n();go('#inicio')};
+$('#del').onclick=()=>{if(!confirm(t('p_confirm')))return;users=users.filter(u=>u.email!==ses);save();ses=null;sv('ec_ses',null);i18n();go('#inicio')};
+
+i18n();route();
+</script>
+</body>
+</html>
